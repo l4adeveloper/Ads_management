@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Pages Connect - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1877f2;
+            --primary-dark: #166fe5;
+            --secondary: #42a5f5;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #0f172a;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-900);
+            overflow-x: hidden;
+        }
+
+        /* Top Navigation Bar */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .connection-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .connection-status.connected {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .connection-status.disconnected {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .user-menu:hover {
+            background: var(--gray-100);
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Main Container */
+        .main-container {
+            margin-top: 70px;
+            padding: 32px;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 24px;
+            padding: 48px;
+            color: white;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: translate(100px, -100px);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 32px;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+        }
+
+        .hero-stat {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .hero-stat-value {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .hero-stat-label {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        /* Connect Section */
+        .connect-section {
+            background: white;
+            border-radius: 24px;
+            padding: 64px 48px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--gray-200);
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .connect-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 32px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .connect-title {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: var(--gray-900);
+        }
+
+        .connect-description {
+            font-size: 18px;
+            color: var(--gray-600);
+            line-height: 1.6;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .connect-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 20px 48px;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 8px 25px rgba(24, 119, 242, 0.3);
+        }
+
+        .connect-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(24, 119, 242, 0.4);
+        }
+
+        .connect-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .connect-btn.connected {
+            background: var(--success);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .connect-btn.connected:hover {
+            background: #059669;
+            box-shadow: 0 12px 35px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Data Display Section */
+        .data-section {
+            display: none;
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--gray-200);
+            margin-bottom: 32px;
+        }
+
+        .data-section.show {
+            display: block;
+        }
+
+        .data-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 32px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--gray-100);
+        }
+
+        .data-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--success), #34d399);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+
+        .data-info h2 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .data-info p {
+            color: var(--gray-600);
+            font-size: 16px;
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .data-card {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s;
+        }
+
+        .data-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .data-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .data-card-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: white;
+        }
+
+        .data-card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .data-content {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .data-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .data-item:last-child {
+            border-bottom: none;
+        }
+
+        .data-label {
+            font-size: 14px;
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        .data-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .data-value.code {
+            font-family: 'Monaco', 'Menlo', monospace;
+            background: var(--gray-100);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        /* Pages Grid */
+        .pages-section {
+            display: none;
+        }
+
+        .pages-section.show {
+            display: block;
+        }
+
+        .pages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 24px;
+        }
+
+        .page-card {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s;
+        }
+
+        .page-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .page-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .page-info h4 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .page-info p {
+            font-size: 14px;
+            color: var(--gray-500);
+        }
+
+        .page-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .page-stat {
+            text-align: center;
+            padding: 16px;
+            background: var(--gray-50);
+            border-radius: 12px;
+        }
+
+        .page-stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 4px;
+        }
+
+        .page-stat-label {
+            font-size: 12px;
+            color: var(--gray-500);
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #ffffff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 16px;
+            }
+
+            .hero-section {
+                padding: 32px 24px;
+            }
+
+            .hero-title {
+                font-size: 28px;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .connect-section {
+                padding: 48px 24px;
+            }
+
+            .connect-title {
+                font-size: 24px;
+            }
+
+            .connect-description {
+                font-size: 16px;
+            }
+
+            .data-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pages-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .top-nav {
+                padding: 0 16px;
+            }
+
+            .nav-left {
+                gap: 12px;
+            }
+
+            .logo {
+                font-size: 18px;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="nav-left">
+            <div class="logo">
+                <div class="logo-icon">📄</div>
+                <span>FB Pages Connect</span>
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="connection-status disconnected" id="connectionStatus">
+                <span>🔴</span>
+                <span id="statusText">Chưa kết nối</span>
+            </div>
+            <div class="user-menu">
+                <div class="user-avatar">U</div>
+                <div>
+                    <div style="font-weight: 600; font-size: 14px;">User</div>
+                    <div style="font-size: 12px; color: var(--gray-500);">Guest</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">Facebook Pages Connect 🚀</h1>
+                <p class="hero-subtitle">Kết nối và quản lý Facebook Pages với quyền truy cập đầy đủ</p>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-value" id="connectedPages">0</div>
+                        <div class="hero-stat-label">Pages kết nối</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value" id="totalPermissions">0</div>
+                        <div class="hero-stat-label">Quyền được cấp</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value" id="totalFollowers">0</div>
+                        <div class="hero-stat-label">Tổng followers</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value" id="lastSync">--</div>
+                        <div class="hero-stat-label">Lần sync cuối</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Connect Section -->
+        <section class="connect-section" id="connectSection">
+            <div class="connect-icon">🔗</div>
+            <h2 class="connect-title">Kết nối Facebook Account</h2>
+            <p class="connect-description">
+                Nhấn nút bên dưới để kết nối với Facebook và cấp quyền truy cập pages_show_list, pages_read_engagement. 
+                Sau khi đăng nhập thành công, bạn sẽ được chuyển hướng về trang này với dữ liệu đầy đủ.
+            </p>
+            <button class="connect-btn" id="connectBtn" onclick="connectFacebook()">
+                <span>📱</span>
+                <span id="connectText">Kết nối Facebook</span>
+            </button>
+        </section>
+
+        <!-- Data Display Section -->
+        <section class="data-section" id="dataSection">
+            <div class="data-header">
+                <div class="data-icon">✅</div>
+                <div class="data-info">
+                    <h2>Kết nối thành công!</h2>
+                    <p>Dữ liệu Facebook đã được tải về và hiển thị bên dưới</p>
+                </div>
+            </div>
+            <div class="data-grid" id="dataGrid">
+                <!-- Data cards will be populated here -->
+            </div>
+        </section>
+
+        <!-- Pages Section -->
+        <section class="pages-section" id="pagesSection">
+            <div class="pages-grid" id="pagesGrid">
+                <!-- Pages will be populated here -->
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Check URL parameters on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            checkUrlParameters();
+        });
+
+        // Check for URL parameters (callback from Facebook login)
+        function checkUrlParameters() {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            // Check if we have callback data
+            const accessToken = urlParams.get('access_token');
+            const userId = urlParams.get('id');
+            const userName = urlParams.get('user_name');
+            const userEmail = urlParams.get('user_email');
+            const permissions = urlParams.get('permissions');
+            const pages = urlParams.get('pages');
+
+            if (userId) {
+                simulateCallback();
+            }
+        }
+
+        // Connect to Facebook
+        function connectFacebook() {
+            const connectBtn = document.getElementById('connectBtn');
+            const connectText = document.getElementById('connectText');
+            
+            connectText.innerHTML = '<span class="loading"></span> Đang chuyển hướng...';
+            connectBtn.disabled = true;
+
+            // Redirect to Facebook login page with required permissions
+            // Replace with your actual Facebook App ID and redirect URI
+            const facebookAppId = 'YOUR_FACEBOOK_APP_ID';
+            const redirectUri = encodeURIComponent(window.location.origin + window.location.pathname);
+            const permissions = 'pages_show_list,pages_read_engagement,pages_manage_posts,email';
+            
+            const facebookLoginUrl = `https://www.facebook.com/v18.0/dialog/oauth?client_id=${facebookAppId}&redirect_uri=${redirectUri}&scope=${permissions}&response_type=code&state=random_state_string`;
+            window.location.href = "/auth/facebook";
+            // For demo purposes, simulate callback after 3 seconds
+            // setTimeout(() => {
+            //     simulateCallback();
+            // }, 3000);
+            
+            // Uncomment this line for actual Facebook login:
+            // window.location.href = facebookLoginUrl;
+        }
+
+        // Simulate callback data (for demo)
+        function simulateCallback() {
+            const mockData = {
+                accessToken: 'EAABwzLixnjYBAELLanajsiKKMM',
+                userId: '122120328332545402',
+                userName: 'AI Pencil ',
+                userEmail: 'aipencilclass@gmail.com',
+                permissions: ['pages_show_list', 'pages_read_engagement', 'pages_manage_posts', 'email'],
+                pages: [
+                    {
+                        id: '123456789',
+                        name: 'TinZ Project - Tin học MOS miễn phí ',
+                        category: 'Business',
+                        access_token: 'EAABwzLixnjYBGGbbkajjhuioKkmnL',
+                        followers_count: 15420,
+                        likes: 14890,
+                        talking_about_count: 1250,
+                        checkins: 450,
+                        picture: 'https://graph.facebook.com/123456789/picture?type=large'
+                    },
+                    {
+                        id: '987654321',
+                        name: 'AI Pencil - Giải pháp Ai tối ưu quản trị doanh nghiệp',
+                        category: 'Media/News Company',
+                        access_token: 'EAABwzLixnjYBAkjansskILJ',
+                        followers_count: 8750,
+                        likes: 8200,
+                        talking_about_count: 680,
+                        checkins: 0,
+                        picture: 'https://graph.facebook.com/987654321/picture?type=large'
+                    },
+                    {
+                        id: '555666777',
+                        name: '10 Education - Tin học MOS hàng đầu Việt Nam ',
+                        category: 'Restaurant',
+                        access_token: 'EAABwzLixnjYBIIlmoaaNLK',
+                        followers_count: 3200,
+                        likes: 3100,
+                        talking_about_count: 420,
+                        checkins: 1250,
+                        picture: 'https://graph.facebook.com/555666777/picture?type=large'
+                    }
+                ]
+            };
+
+            processCallbackData(mockData);
+        }
+
+        // Process callback data
+        function processCallbackData(data) {
+            console.log('Received Facebook data:', data);
+
+            // Update connection status
+            updateConnectionStatus(true, data.userName);
+
+            // Hide connect section
+            document.getElementById('connectSection').style.display = 'none';
+
+            // Show data section
+            document.getElementById('dataSection').classList.add('show');
+
+            // Display user data
+            displayUserData(data);
+
+            // Display pages
+            if (data.pages && data.pages.length > 0) {
+                document.getElementById('pagesSection').classList.add('show');
+                displayPages(data.pages);
+            }
+
+            // Update stats
+            updateStats(data);
+
+            // Show success notification
+            showNotification('Kết nối Facebook thành công!', 'success');
+
+            // Clean URL (remove parameters)
+            const url = new URL(window.location);
+            url.search = '';
+            window.history.replaceState({}, document.title, url);
+        }
+
+        // Update connection status
+        function updateConnectionStatus(connected, userName = '') {
+            const statusElement = document.getElementById('connectionStatus');
+            const statusText = document.getElementById('statusText');
+
+            if (connected) {
+                statusElement.className = 'connection-status connected';
+                statusElement.innerHTML = '<span>🟢</span><span>Đã kết nối</span>';
+                
+                // Update user info
+                const userMenu = document.querySelector('.user-menu');
+                userMenu.innerHTML = `
+                    <div class="user-avatar">${userName.charAt(0)}</div>
+                    <div>
+                        <div style="font-weight: 600; font-size: 14px;">${userName}</div>
+                        <div style="font-size: 12px; color: var(--gray-500);">Connected</div>
+                    </div>
+                `;
+            } else {
+                statusElement.className = 'connection-status disconnected';
+                statusElement.innerHTML = '<span>🔴</span><span>Chưa kết nối</span>';
+            }
+        }
+
+        // Display user data
+        function displayUserData(data) {
+            const dataGrid = document.getElementById('dataGrid');
+            
+            // User Info Card
+            const userCard = createDataCard('👤', 'Thông tin người dùng', [
+                { label: 'User ID', value: data.userId, isCode: true },
+                { label: 'Tên', value: data.userName },
+                { label: 'Email', value: data.userEmail },
+                { label: 'Access Token', value: data.accessToken.substring(0, 20) + '...', isCode: true }
+            ]);
+
+            // Permissions Card
+            const permissionsCard = createDataCard('🔐', 'Quyền được cấp', 
+                data.permissions.map(permission => ({
+                    label: permission,
+                    value: '✅ Đã cấp'
+                }))
+            );
+
+            // Pages Summary Card
+            const pagesSummaryCard = createDataCard('📄', 'Tổng quan Pages', [
+                { label: 'Tổng số Pages', value: data.pages.length.toString() },
+                { label: 'Tổng Followers', value: formatNumber(data.pages.reduce((sum, page) => sum + page.followers_count, 0)) },
+                { label: 'Tổng Likes', value: formatNumber(data.pages.reduce((sum, page) => sum + page.likes, 0)) },
+                { label: 'Engagement', value: formatNumber(data.pages.reduce((sum, page) => sum + page.talking_about_count, 0)) }
+            ]);
+
+            // API Endpoints Card
+            const apiCard = createDataCard('🔗', 'API Endpoints có thể sử dụng', [
+                { label: 'Graph API Base', value: 'https://graph.facebook.com/v18.0/', isCode: true },
+                { label: 'Get Pages', value: `/${data.userId}/accounts`, isCode: true },
+                { label: 'Page Insights', value: '/PAGE_ID/insights', isCode: true },
+                { label: 'Page Posts', value: '/PAGE_ID/posts', isCode: true }
+            ]);
+
+            dataGrid.innerHTML = '';
+            dataGrid.appendChild(userCard);
+            dataGrid.appendChild(permissionsCard);
+            dataGrid.appendChild(pagesSummaryCard);
+            dataGrid.appendChild(apiCard);
+        }
+
+        // Create data card
+        function createDataCard(icon, title, items) {
+            const card = document.createElement('div');
+            card.className = 'data-card';
+
+            card.innerHTML = `
+                <div class="data-card-header">
+                    <div class="data-card-icon">${icon}</div>
+                    <div class="data-card-title">${title}</div>
+                </div>
+                <div class="data-content">
+                    ${items.map(item => `
+                        <div class="data-item">
+                            <span class="data-label">${item.label}</span>
+                            <span class="data-value ${item.isCode ? 'code' : ''}">${item.value}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            return card;
+        }
+
+        // Display pages
+        function displayPages(pages) {
+            const pagesGrid = document.getElementById('pagesGrid');
+            pagesGrid.innerHTML = '';
+
+            pages.forEach(page => {
+                const pageCard = createPageCard(page);
+                pagesGrid.appendChild(pageCard);
+            });
+        }
+
+        // Create page card
+        function createPageCard(page) {
+            const card = document.createElement('div');
+            card.className = 'page-card';
+
+            card.innerHTML = `
+                <div class="page-header">
+                    <div class="page-avatar">${page.name.charAt(0)}</div>
+                    <div class="page-info">
+                        <h4>${page.name}</h4>
+                        <p>${page.category} • ID: ${page.id}</p>
+                    </div>
+                </div>
+                <div class="page-stats">
+                    <div class="page-stat">
+                        <div class="page-stat-value">${formatNumber(page.followers_count)}</div>
+                        <div class="page-stat-label">Followers</div>
+                    </div>
+                    <div class="page-stat">
+                        <div class="page-stat-value">${formatNumber(page.likes)}</div>
+                        <div class="page-stat-label">Likes</div>
+                    </div>
+                </div>
+                <div class="data-content">
+                    <div class="data-item">
+                        <span class="data-label">Page Token</span>
+                        <span class="data-value code">${page.access_token.substring(0, 15)}...</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="data-label">Talking About</span>
+                        <span class="data-value">${formatNumber(page.talking_about_count)}</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="data-label">Check-ins</span>
+                        <span class="data-value">${formatNumber(page.checkins)}</span>
+                    </div>
+                </div>
+            `;
+
+            return card;
+        }
+
+        // Update stats
+        function updateStats(data) {
+            document.getElementById('connectedPages').textContent = data.pages.length;
+            document.getElementById('totalPermissions').textContent = data.permissions.length;
+            document.getElementById('totalFollowers').textContent = formatNumber(
+                data.pages.reduce((sum, page) => sum + page.followers_count, 0)
+            );
+            document.getElementById('lastSync').textContent = new Date().toLocaleTimeString('vi-VN');
+        }
+
+        // Format number
+        function formatNumber(num) {
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1) + 'M';
+            } else if (num >= 1000) {
+                return (num / 1000).toFixed(1) + 'K';
+            }
+            return num.toString();
+        }
+
+        // Show notification
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 90px;
+                right: 24px;
+                background: ${type === 'success' ? 'var(--success)' : 'var(--danger)'};
+                color: white;
+                padding: 16px 24px;
+                border-radius: 12px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+                z-index: 1001;
+                font-weight: 600;
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Add CSS animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

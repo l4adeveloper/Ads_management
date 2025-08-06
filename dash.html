@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Ads Manager - Modern Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #0f172a;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-900);
+            overflow-x: hidden;
+        }
+
+        /* Top Navigation Bar */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-tab {
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--gray-600);
+            font-weight: 500;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .nav-tab.active {
+            color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .nav-tab:hover {
+            color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-input {
+            width: 300px;
+            padding: 8px 16px 8px 40px;
+            border: 1px solid var(--gray-300);
+            border-radius: 20px;
+            background: var(--gray-50);
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-400);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .user-menu:hover {
+            background: var(--gray-100);
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Main Container */
+        .main-container {
+            margin-top: 70px;
+            padding: 32px;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 24px;
+            padding: 48px;
+            color: white;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: translate(100px, -100px);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 32px;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+        }
+
+        .hero-stat {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .hero-stat-value {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .hero-stat-label {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .action-card {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .action-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .action-card:nth-child(1) .action-icon {
+            background: linear-gradient(135deg, #1877f2, #42a5f5);
+        }
+
+        .action-card:nth-child(2) .action-icon {
+            background: linear-gradient(135deg, var(--success), #34d399);
+        }
+
+        .action-card:nth-child(3) .action-icon {
+            background: linear-gradient(135deg, var(--warning), #fbbf24);
+        }
+
+        .action-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--gray-900);
+        }
+
+        .action-description {
+            color: var(--gray-600);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .action-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        .action-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .action-button.secondary {
+            background: var(--gray-100);
+            color: var(--gray-700);
+        }
+
+        .action-button.secondary:hover {
+            background: var(--gray-200);
+        }
+
+        .action-button.success {
+            background: var(--success);
+        }
+
+        .action-button.success:hover {
+            background: #059669;
+        }
+
+        /* Connection Status */
+        .connection-status {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--gray-200);
+        }
+
+        .status-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .status-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+        }
+
+        .status-connected .status-icon {
+            background: linear-gradient(135deg, var(--success), #34d399);
+        }
+
+        .status-disconnected .status-icon {
+            background: linear-gradient(135deg, var(--gray-400), var(--gray-500));
+        }
+
+        .status-info h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .status-info p {
+            color: var(--gray-600);
+            font-size: 14px;
+        }
+
+        /* Accounts Grid */
+        .accounts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .account-card {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--gray-200);
+            transition: all 0.3s;
+        }
+
+        .account-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .account-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .account-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .account-info h4 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .account-info p {
+            font-size: 12px;
+            color: var(--gray-500);
+        }
+
+        .account-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .account-stat {
+            text-align: center;
+            padding: 16px;
+            background: var(--gray-50);
+            border-radius: 12px;
+        }
+
+        .account-stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 4px;
+        }
+
+        .account-stat-label {
+            font-size: 12px;
+            color: var(--gray-500);
+        }
+
+        .account-status {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-active {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .status-inactive {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+
+        .account-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--gray-200);
+            color: var(--gray-700);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .empty-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 24px;
+            background: linear-gradient(135deg, var(--gray-100), var(--gray-200));
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: var(--gray-400);
+        }
+
+        .empty-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--gray-900);
+        }
+
+        .empty-description {
+            color: var(--gray-600);
+            margin-bottom: 32px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #ffffff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 16px;
+            }
+
+            .hero-section {
+                padding: 32px 24px;
+            }
+
+            .hero-title {
+                font-size: 28px;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .accounts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-input {
+                width: 200px;
+            }
+
+            .nav-tabs {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .top-nav {
+                padding: 0 16px;
+            }
+
+            .nav-left {
+                gap: 12px;
+            }
+
+            .logo {
+                font-size: 18px;
+            }
+
+            .search-input {
+                width: 150px;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            transform: scale(0.9) translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-header {
+            padding: 32px 32px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .modal-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-bottom: 8px;
+        }
+
+        .modal-subtitle {
+            color: var(--gray-600);
+            font-size: 16px;
+        }
+
+        .modal-close {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: var(--gray-100);
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--gray-600);
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: var(--gray-200);
+            color: var(--gray-800);
+        }
+
+        .modal-body {
+            padding: 32px;
+        }
+
+        .detail-section {
+            margin-bottom: 32px;
+        }
+
+        .detail-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .detail-item {
+            background: var(--gray-50);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .detail-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .detail-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--gray-900);
+        }
+
+        .detail-value.large {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .detail-value.code {
+            font-family: 'Monaco', 'Menlo', monospace;
+            background: var(--gray-200);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 16px;
+        }
+
+        .stat-box:nth-child(2) {
+            background: linear-gradient(135deg, var(--success), #34d399);
+        }
+
+        .stat-box:nth-child(3) {
+            background: linear-gradient(135deg, var(--warning), #fbbf24);
+        }
+
+        .stat-box:nth-child(4) {
+            background: linear-gradient(135deg, var(--secondary), #f472b6);
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .stat-text {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .campaign-list {
+            background: var(--gray-50);
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .campaign-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .campaign-item:last-child {
+            border-bottom: none;
+        }
+
+        .campaign-info h5 {
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 4px;
+        }
+
+        .campaign-info p {
+            font-size: 14px;
+            color: var(--gray-600);
+        }
+
+        .campaign-status {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .modal-actions {
+            padding: 0 32px 32px;
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--gray-200);
+            color: var(--gray-700);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-300);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        /* Edit Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-700);
+            margin-bottom: 8px;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
+            font-size: 14px;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                margin: 20px;
+            }
+
+            .modal-header,
+            .modal-body,
+            .modal-actions {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-row {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="nav-left">
+            <div class="logo">
+                <div class="logo-icon">📊</div>
+                <span>FB Ads Pro</span>
+            </div>
+            <div class="nav-tabs">
+                <a href="#" class="nav-tab active">Dashboard</a>
+                <a href="#" class="nav-tab">Tài khoản</a>
+                <a href="#" class="nav-tab">Chiến dịch</a>
+                <a href="#" class="nav-tab">Báo cáo</a>
+                <a href="#" class="nav-tab">Cài đặt</a>
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" placeholder="Tìm kiếm tài khoản, chiến dịch...">
+            </div>
+            <div class="user-menu">
+                <div class="user-avatar">A</div>
+                <div>
+                    <div style="font-weight: 600; font-size: 14px;">Admin</div>
+                    <div style="font-size: 12px; color: var(--gray-500);">Premium</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">Chào mừng trở lại! 👋</h1>
+                <p class="hero-subtitle">Quản lý tài khoản Facebook Ads của bạn một cách thông minh và hiệu quả</p>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-value" id="heroAccounts">0</div>
+                        <div class="hero-stat-label">Tài khoản kết nối</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value" id="heroCampaigns">0</div>
+                        <div class="hero-stat-label">Chiến dịch hoạt động</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value" id="heroost">₫0</div>
+                        <div class="hero-stat-label">Chi phí hôm nay</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value" id="herolead">0</div>
+                        <div class="hero-stat-label">Leads mới</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="quick-actions">
+            <div class="action-card" onclick="loginWithFacebook()">
+                <div class="action-icon">📱</div>
+                <h3 class="action-title">Kết nối Facebook</h3>
+                <p class="action-description">Đăng nhập Facebook để tự động đồng bộ tất cả tài khoản quảng cáo của bạn
+                </p>
+                <button class="action-button" id="connectBtn">
+                    <span id="connectText">Kết nối ngay</span>
+                </button>
+            </div>
+            <div class="action-card">
+                <div class="action-icon">🚀</div>
+                <h3 class="action-title">Tạo chiến dịch mới</h3>
+                <p class="action-description">Khởi tạo chiến dịch quảng cáo mới với AI optimization tự động</p>
+                <button class="action-button success">Tạo chiến dịch</button>
+            </div>
+            <div class="action-card">
+                <div class="action-icon">📊</div>
+                <h3 class="action-title">Xem báo cáo</h3>
+                <p class="action-description">Phân tích hiệu suất và tối ưu hóa chiến dịch của bạn</p>
+                <button class="action-button secondary">Xem báo cáo</button>
+            </div>
+        </section>
+
+        <!-- Connection Status -->
+        <section class="connection-status" id="connectionStatus" style="display: none;">
+            <div class="status-header">
+                <div class="status-icon">✅</div>
+                <div class="status-info">
+                    <h3>Kết nối thành công!</h3>
+                    <p>Đã đồng bộ <span id="connectedAccounts">0</span> tài khoản Facebook Ads</p>
+                </div>
+                <button class="action-button" onclick="syncAccounts()" id="syncBtn">
+                    🔄 Đồng bộ lại
+                </button>
+            </div>
+        </section>
+
+        <!-- Accounts Grid -->
+        <section id="accountsSection">
+            <div class="empty-state" id="emptyState">
+                <div class="empty-icon">📭</div>
+                <h2 class="empty-title">Chưa có tài khoản nào</h2>
+                <p class="empty-description">
+                    Kết nối với Facebook để tự động lấy tất cả tài khoản quảng cáo của bạn.
+                    Quá trình này chỉ mất vài giây!
+                </p>
+                <button class="action-button" onclick="loginWithFacebook()">
+                    📱 Kết nối Facebook
+                </button>
+            </div>
+            <div class="accounts-grid" id="accountsGrid" style="display: none;">
+                <!-- Accounts will be populated here -->
+            </div>
+        </section>
+    </div>
+    <div class="modal-overlay" id="accountModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h2 class="modal-title" id="modalTitle">Chi tiết tài khoản</h2>
+                    <p class="modal-subtitle" id="modalSubtitle">Thông tin và thống kê chi tiết</p>
+                </div>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Content will be populated here -->
+            </div>
+            <div class="modal-actions" id="modalActions">
+                <!-- Actions will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Facebook SDK -->
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js"></script>
+
+    <script>
+        // Facebook SDK Configuration
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: 'YOUR_FACEBOOK_APP_ID',
+                cookie: true,
+                xfbml: true,
+                version: 'v18.0'
+            });
+        };
+
+        let isConnected = false;
+        let userAccounts = [];
+        window.addEventListener("DOMContentLoaded", () => {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get("id");
+            const name = params.get("name");
+            const business = params.get("business");
+            const status = params.get("status");
+            const campaigns = params.get("campaigns");
+            const spend = params.get("spend");
+            const currency = params.get("currency");
+
+            if (id && name) {
+                isConnected = true;
+                userAccounts = [{
+                    id,
+                    name,
+                    business,
+                    status,
+                    campaigns: parseInt(campaigns),
+                    spend,
+                    currency
+                }];
+                simulateConnection();
+            } else {
+                // Không có dữ liệu ⇒ ẩn các phần liên quan
+                document.getElementById('connectionStatus').style.display = 'none';
+                document.getElementById('accountsGrid').style.display = 'none';
+                document.getElementById('emptyState').style.display = 'block';
+                document.getElementById('connectedAccounts').textContent = '0';
+                document.getElementById('heroAccounts').textContent = '0';
+                document.getElementById('heroCampaigns').textContent = '0';
+            }
+        });
+
+        function simulateConnection() {
+            isConnected = true;
+
+            // Hiện phần trạng thái kết nối
+            document.getElementById('connectionStatus').style.display = 'block';
+
+            const connectBtn = document.getElementById('connectBtn');
+            const connectText = document.getElementById('connectText');
+            connectText.textContent = '✅ Đã kết nối';
+            connectBtn.style.background = 'var(--success)';
+            connectBtn.disabled = true;
+
+            displayAccounts();
+            updateStats();
+        }
+
+
+        // Login with Facebook
+        function loginWithFacebook() {
+            const connectBtn = document.getElementById('connectBtn');
+            const connectText = document.getElementById('connectText');
+
+            connectText.innerHTML = '<span class="loading"></span> Đang kết nối...';
+            connectBtn.disabled = true;
+            window.location.href = "/auth/facebook";
+        }
+
+        function simulateConnection() {
+            isConnected = true;
+            document.getElementById('connectionStatus').style.display = 'block';
+            const connectBtn = document.getElementById('connectBtn');
+            const connectText = document.getElementById('connectText');
+            connectText.textContent = '✅ Đã kết nối';
+            connectBtn.style.background = 'var(--success)';
+            connectBtn.disabled = true;
+
+            // Gọi API từ server để lấy danh sách tài khoản quảng cáo
+            getUserAccounts();
+        }
+
+        function getUserAccounts() {
+            fetch('/api/accounts', {
+                method: 'GET',
+                credentials: 'include' // Gửi cookie nếu cần session
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (!data || !Array.isArray(data.accounts) || data.accounts.length === 0) {
+                        // Không có tài khoản -> giữ nguyên empty state
+                        return;
+                    }
+
+                    userAccounts = data.accounts;
+                    displayAccounts();
+                    updateStats();
+                })
+                .catch(error => {
+                    console.error('Lỗi khi lấy danh sách tài khoản:', error);
+                });
+        }
+
+
+        function displayAccounts() {
+            const emptyState = document.getElementById('emptyState');
+            const accountsGrid = document.getElementById('accountsGrid');
+            const connectedAccounts = document.getElementById('connectedAccounts');
+
+            if (userAccounts.length === 0) {
+                emptyState.style.display = 'block';
+                accountsGrid.style.display = 'none';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            accountsGrid.style.display = 'grid';
+            connectedAccounts.textContent = userAccounts.length;
+
+            // Clear existing accounts
+            accountsGrid.innerHTML = '';
+
+            // Add accounts
+            userAccounts.forEach(account => {
+                const accountCard = createAccountCard(account);
+                accountsGrid.appendChild(accountCard);
+            });
+        }
+        function openModal() {
+            document.getElementById('accountModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('accountModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        async function viewAccount(accountId) {
+            const account = userAccounts.find(acc => acc.id === accountId);
+            if (!account) {
+                console.log("fail");
+                return;
+            }
+
+            document.getElementById('modalTitle').textContent = account.name;
+            document.getElementById('modalSubtitle').textContent = `${account.business} • ${account.id}`;
+
+            // Gọi API lấy chiến dịch gần đây
+            let campaignHTML = '';
+            try {
+                const token = localStorage.getItem("token");
+                const res = await fetch(`/api/accounts/${accountId}/recent-campaigns?token=${token}`);
+                const campaigns = await res.json();
+
+                if (Array.isArray(campaigns) && campaigns.length > 0) {
+                    campaignHTML = campaigns.map(c => `
+                <div class="campaign-item">
+                    <div class="campaign-info">
+                        <h5>${c.name}</h5>
+                        <p>${c.objective || 'Không rõ mục tiêu'} • ${c.status === 'ACTIVE' ? 'Đang chạy' : 'Đã tạm dừng'} • Bắt đầu ${new Date(c.start_time).toLocaleDateString('vi-VN')}</p>
+                    </div>
+                    <div class="campaign-status">
+                        <span class="status-badge ${c.status === 'ACTIVE' ? 'status-active' : 'status-inactive'}">
+                            ${c.status === 'ACTIVE' ? 'Hoạt động' : 'Tạm dừng'}
+                        </span>
+                    </div>
+                </div>
+            `).join('');
+                } else {
+                    campaignHTML = `<p>Không có chiến dịch nào trong 30 ngày qua.</p>`;
+                }
+            } catch (err) {
+                console.error("Lỗi khi fetch campaign:", err);
+                campaignHTML = `<p>Không thể tải chiến dịch gần đây.</p>`;
+            }
+
+            const modalBody = document.getElementById('modalBody');
+            modalBody.innerHTML = `
+        <div class="stats-row">
+            <div class="stat-box">
+                <div class="stat-number">${account.campaigns}</div>
+                <div class="stat-text">Chiến dịch</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">${account.spend}</div>
+                <div class="stat-text">Chi phí tháng này</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">2,456</div>
+                <div class="stat-text">Clicks</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">12.5%</div>
+                <div class="stat-text">CTR</div>
+            </div>
+        </div>
+
+        <div class="detail-section">
+            <h3 class="section-title">📋 Thông tin cơ bản</h3>
+            <div class="detail-grid">
+                <div class="detail-item">
+                    <div class="detail-label">Tên tài khoản</div>
+                    <div class="detail-value">${account.name}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Business Manager</div>
+                    <div class="detail-value">${account.business}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Account ID</div>
+                    <div class="detail-value code">${account.id}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Trạng thái</div>
+                    <div class="detail-value">
+                        <span class="status-badge ${account.status === 'active' ? 'status-active' : 'status-inactive'}">
+                            ${account.status === 'active' ? 'Hoạt động' : 'Tạm dừng'}
+                        </span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Tiền tệ</div>
+                    <div class="detail-value">${account.currency}</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Múi giờ</div>
+                    <div class="detail-value">Asia/Ho_Chi_Minh</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="detail-section">
+            <h3 class="section-title">🚀 Chiến dịch gần đây</h3>
+            <div class="campaign-list">
+                ${campaignHTML}
+            </div>
+        </div>
+    `;
+            const modalActions = document.getElementById('modalActions');
+            modalActions.innerHTML = `
+                <button class="btn btn-secondary" onclick="closeModal()">Đóng</button>
+                <button class="btn btn-primary" onclick="editAccount('${account.id}')">Chỉnh sửa</button>
+            `;
+
+            openModal();
+        }
+        function createAccountCard(account) {
+            const card = document.createElement('div');
+            card.className = 'account-card';
+
+            const statusClass = account.status === 'active' ? 'status-active' : 'status-inactive';
+            const statusText = account.status === 'active' ? 'Hoạt động' : 'Tạm dừng';
+
+            card.innerHTML = `
+                <div class="account-header">
+                    <div class="account-avatar">${account.name.charAt(0)}</div>
+                    <div class="account-info">
+                        <h4>${account.name}</h4>
+                        <p>${account.business}</p>
+                    </div>
+                </div>
+                <div class="account-stats">
+                    <div class="account-stat">
+                        <div class="account-stat-value">${account.campaigns}</div>
+                        <div class="account-stat-label">Chiến dịch</div>
+                    </div>
+                    <div class="account-stat">
+                        <div class="account-stat-value">${account.spend}</div>
+                        <div class="account-stat-label">Chi phí</div>
+                    </div>
+                </div>
+                <div class="account-status">
+                    <span class="status-badge ${statusClass}">${statusText}</span>
+                    <div class="account-actions">
+                        <button class="btn-sm btn-primary" onclick="viewAccount('${account.id}')">Xem</button>
+                        <button class="btn-sm btn-secondary" onclick="editAccount('${account.id}')">Sửa</button>
+                    </div>
+                </div>
+            `;
+
+            return card;
+        }
+
+        function updateStats() {
+            const activeAccounts = userAccounts.filter(acc => acc.status === 'active').length;
+            const totalCampaigns = userAccounts.reduce((sum, acc) => sum + acc.campaigns, 0);
+
+            let totalSpend = 0;
+            let totalLeads = 0;
+
+            userAccounts.forEach(acc => {
+                // Parse chi phí: từ chuỗi ₫1.2M hoặc ₫500K -> số
+                const spendString = (acc.spendToday || acc.spend || '₫0').replace(/[₫,]/g, '').toUpperCase();
+                let spendValue = 0;
+                if (spendString.includes('M')) {
+                    spendValue = parseFloat(spendString) * 1_000_000;
+                } else if (spendString.includes('K')) {
+                    spendValue = parseFloat(spendString) * 1_000;
+                } else {
+                    spendValue = parseFloat(spendString);
+                }
+                totalSpend += spendValue;
+
+                // Cộng leads
+                totalLeads += Number(acc.leadsToday || acc.leads || 0);
+            });
+
+            document.getElementById('heroAccounts').textContent = activeAccounts;
+            document.getElementById('heroCampaigns').textContent = totalCampaigns;
+            document.getElementById('herocost').textContent = formatCurrencyVND(totalSpend);
+            document.getElementById('herolead').textContent = totalLeads.toLocaleString('vi-VN');
+        }
+
+        function syncAccounts() {
+            const syncBtn = document.getElementById('syncBtn');
+            const originalText = syncBtn.innerHTML;
+
+            syncBtn.innerHTML = '<span class="loading"></span> Đang đồng bộ...';
+            syncBtn.disabled = true;
+
+            setTimeout(() => {
+                getUserAccounts();
+                syncBtn.innerHTML = originalText;
+                syncBtn.disabled = false;
+
+                showNotification('Đồng bộ thành công!', 'success');
+            }, 2000);
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 90px;
+                right: 24px;
+                background: ${type === 'success' ? 'var(--success)' : 'var(--danger)'};
+                color: white;
+                padding: 16px 24px;
+                border-radius: 12px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+                z-index: 1001;
+                font-weight: 600;
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Add CSS animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+
+</html>

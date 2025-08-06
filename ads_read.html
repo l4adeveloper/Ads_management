@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Ads Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #1e293b;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 24px 32px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #1877f2, #42a5f5);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .connect-btn {
+            background: linear-gradient(135deg, #1877f2, #42a5f5);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .connect-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(24, 119, 242, 0.3);
+        }
+
+        .connect-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 24px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 24px;
+            height: fit-content;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #1e293b;
+        }
+
+        .account-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .account-item {
+            padding: 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .account-item:hover {
+            border-color: #1877f2;
+            transform: translateY(-2px);
+        }
+
+        .account-item.active {
+            border-color: #1877f2;
+            background: rgba(24, 119, 242, 0.05);
+        }
+
+        .account-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .account-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .account-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .account-avatar-placeholder {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #1877f2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .account-name {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .account-stats {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .account-item:hover .remove-btn {
+            opacity: 1;
+        }
+
+        .empty-accounts {
+            text-align: center;
+            padding: 40px 20px;
+            color: #64748b;
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        /* Dashboard Content */
+        .dashboard-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .dashboard-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .refresh-btn {
+            background: #f1f5f9;
+            color: #475569;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .refresh-btn:hover {
+            background: #e2e8f0;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+            margin: 0 auto 16px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        /* Ad Accounts Section */
+        .ad-accounts-section {
+            margin-top: 32px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #1e293b;
+        }
+
+        .ad-accounts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .ad-account-card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .ad-account-card:hover {
+            border-color: #1877f2;
+            transform: translateY(-2px);
+        }
+
+        .ad-account-name {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .ad-account-id {
+            font-size: 12px;
+            color: #64748b;
+            font-family: monospace;
+            margin-bottom: 12px;
+        }
+
+        .ad-account-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+
+        .ad-account-spend {
+            font-weight: 600;
+            color: #059669;
+        }
+
+        .ad-account-status {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+        }
+
+        .status-inactive {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
+        }
+
+        /* Welcome State */
+        .welcome-state {
+            text-align: center;
+            padding: 80px 40px;
+        }
+
+        .welcome-icon {
+            font-size: 64px;
+            margin-bottom: 24px;
+        }
+
+        .welcome-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 16px;
+        }
+
+        .welcome-description {
+            font-size: 18px;
+            color: #64748b;
+            margin-bottom: 32px;
+        }
+
+        .welcome-btn {
+            background: linear-gradient(135deg, #1877f2, #42a5f5);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 16px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .welcome-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(24, 119, 242, 0.3);
+        }
+
+        /* Loading */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 40px;
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #e2e8f0;
+            border-top: 2px solid #1877f2;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                order: 2;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 16px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .ad-accounts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon">📊</div>
+                <div class="logo-text">Facebook Ads Dashboard</div>
+            </div>
+            <button class="connect-btn" onclick="connectFacebook()" id="connectBtn">
+                <span>📘</span>
+                <span>Kết nối Facebook</span>
+            </button>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="sidebar-title">Tài khoản đã kết nối</div>
+                <div class="account-list" id="accountList">
+                    <div class="empty-accounts">
+                        <div class="empty-icon">👤</div>
+                        <div>Chưa có tài khoản nào</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <div id="dashboardContent">
+                    <div class="welcome-state">
+                        <div class="welcome-icon">🚀</div>
+                        <h1 class="welcome-title">Chào mừng đến với Facebook Ads Dashboard</h1>
+                        <p class="welcome-description">
+                            Kết nối tài khoản Facebook của bạn để bắt đầu quản lý và phân tích hiệu suất quảng cáo
+                        </p>
+                        <button class="welcome-btn" onclick="connectFacebook()">
+                            Kết nối ngay
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let connectedAccounts = [];
+        let selectedAccountId = null;
+
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadConnectedAccounts();
+        });
+
+        // Connect to Facebook
+        async function connectFacebook() {
+            const connectBtn = document.getElementById('connectBtn');
+            connectBtn.disabled = true;
+            connectBtn.innerHTML = '<div class="spinner"></div>Đang kết nối...';
+
+            try {
+                window.location.href = '/auth/facebook';
+            } catch (error) {
+                console.error('Error connecting to Facebook:', error);
+                showNotification('Lỗi khi kết nối Facebook', 'error');
+                connectBtn.disabled = false;
+                connectBtn.innerHTML = '<span>📘</span><span>Kết nối Facebook</span>';
+            }
+        }
+
+        // Load connected accounts
+        async function loadConnectedAccounts() {
+            try {
+                const response = await fetch('/api/connected-accounts');
+                const data = await response.json();
+
+                if (response.ok && data.accounts && data.accounts.length > 0) {
+                    connectedAccounts = data.accounts;
+                    renderAccountList(data.accounts);
+                    
+                    // Select first account by default
+                    if (!selectedAccountId) {
+                        selectAccount(data.accounts[0].id);
+                    }
+                } else {
+                    renderEmptyAccountList();
+                    renderWelcomeState();
+                }
+            } catch (error) {
+                console.error('Error loading accounts:', error);
+                renderEmptyAccountList();
+                renderWelcomeState();
+            }
+        }
+
+        // Render account list
+        function renderAccountList(accounts) {
+            const accountList = document.getElementById('accountList');
+            
+            accountList.innerHTML = accounts.map(account => `
+                <div class="account-item ${selectedAccountId === account.id ? 'active' : ''}" 
+                     onclick="selectAccount('${account.id}')">
+                    <button class="remove-btn" onclick="removeAccount('${account.id}', event)" title="Xóa tài khoản">×</button>
+                    <div class="account-info">
+                        <div class="account-avatar">
+                            ${account.picture ? 
+                                `<img src="${account.picture}" alt="Avatar">` : 
+                                `<div class="account-avatar-placeholder">${account.name.charAt(0).toUpperCase()}</div>`
+                            }
+                        </div>
+                        <div>
+                            <div class="account-name">${account.name}</div>
+                            <div class="account-stats">${account.adAccounts} Ad Accounts</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render empty account list
+        function renderEmptyAccountList() {
+            const accountList = document.getElementById('accountList');
+            accountList.innerHTML = `
+                <div class="empty-accounts">
+                    <div class="empty-icon">👤</div>
+                    <div>Chưa có tài khoản nào</div>
+                </div>
+            `;
+        }
+
+        // Select account
+        function selectAccount(accountId) {
+            selectedAccountId = accountId;
+            
+            // Update active state
+            document.querySelectorAll('.account-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.currentTarget?.classList.add('active');
+            
+            // Load account dashboard
+            loadAccountDashboard(accountId);
+        }
+
+        // Load account dashboard
+        async function loadAccountDashboard(accountId) {
+            const dashboardContent = document.getElementById('dashboardContent');
+            
+            // Show loading
+            dashboardContent.innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <span>Đang tải dữ liệu...</span>
+                </div>
+            `;
+
+            try {
+                // Load account details
+                const detailsResponse = await fetch(`/api/accounts/${accountId}/details`);
+                const detailsData = await detailsResponse.json();
+
+                if (detailsResponse.ok) {
+                    renderAccountDashboard(detailsData);
+                } else {
+                    throw new Error(detailsData.error || 'Failed to load account details');
+                }
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                dashboardContent.innerHTML = `
+                    <div class="welcome-state">
+                        <div class="welcome-icon">⚠️</div>
+                        <h1 class="welcome-title">Lỗi tải dữ liệu</h1>
+                        <p class="welcome-description">${error.message}</p>
+                        <button class="welcome-btn" onclick="loadAccountDashboard('${accountId}')">
+                            Thử lại
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        // Render account dashboard
+        function renderAccountDashboard(data) {
+            const account = connectedAccounts.find(acc => acc.id === selectedAccountId);
+            const dashboardContent = document.getElementById('dashboardContent');
+
+            dashboardContent.innerHTML = `
+                <div class="dashboard-header">
+                    <h1 class="dashboard-title">${data.account.name}</h1>
+                    <button class="refresh-btn" onclick="loadAccountDashboard('${selectedAccountId}')">
+                        🔄 Làm mới
+                    </button>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">📊</div>
+                        <div class="stat-value">${data.adAccounts.length}</div>
+                        <div class="stat-label">Ad Accounts</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb, #f5576c);">📈</div>
+                        <div class="stat-value">${account?.campaigns || 0}</div>
+                        <div class="stat-label">Campaigns</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">💰</div>
+                        <div class="stat-value">${account?.totalSpend || '$0'}</div>
+                        <div class="stat-label">Tổng chi phí</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">✅</div>
+                        <div class="stat-value">${data.adAccounts.filter(acc => acc.status === 'active').length}</div>
+                        <div class="stat-label">Active Accounts</div>
+                    </div>
+                </div>
+
+                <div class="ad-accounts-section">
+                    <h2 class="section-title">Ad Accounts</h2>
+                    <div class="ad-accounts-grid">
+                        ${data.adAccounts.map(adAccount => `
+                            <div class="ad-account-card">
+                                <div class="ad-account-name">${adAccount.name}</div>
+                                <div class="ad-account-id">${adAccount.id}</div>
+                                <div class="ad-account-stats">
+                                    <span class="ad-account-spend">${adAccount.spend} ${adAccount.currency}</span>
+                                    <span class="ad-account-status ${adAccount.status === 'active' ? 'status-active' : 'status-inactive'}">
+                                        ${adAccount.status === 'active' ? 'Hoạt động' : 'Không hoạt động'}
+                                    </span>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Render welcome state
+        function renderWelcomeState() {
+            const dashboardContent = document.getElementById('dashboardContent');
+            dashboardContent.innerHTML = `
+                <div class="welcome-state">
+                    <div class="welcome-icon">🚀</div>
+                    <h1 class="welcome-title">Chào mừng đến với Facebook Ads Dashboard</h1>
+                    <p class="welcome-description">
+                        Kết nối tài khoản Facebook của bạn để bắt đầu quản lý và phân tích hiệu suất quảng cáo
+                    </p>
+                    <button class="welcome-btn" onclick="connectFacebook()">
+                        Kết nối ngay
+                    </button>
+                </div>
+            `;
+        }
+
+        // Remove account
+        async function removeAccount(accountId, event) {
+            event.stopPropagation();
+            
+            const account = connectedAccounts.find(acc => acc.id === accountId);
+            if (!confirm(`Bạn có chắc muốn xóa tài khoản "${account.name}"?`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/accounts/${accountId}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    // Remove from local array
+                    connectedAccounts = connectedAccounts.filter(acc => acc.id !== accountId);
+                    
+                    // Update UI
+                    if (connectedAccounts.length === 0) {
+                        renderEmptyAccountList();
+                        renderWelcomeState();
+                        selectedAccountId = null;
+                    } else {
+                        renderAccountList(connectedAccounts);
+                        if (selectedAccountId === accountId) {
+                            selectAccount(connectedAccounts[0].id);
+                        }
+                    }
+                    
+                    showNotification('Đã xóa tài khoản thành công', 'success');
+                } else {
+                    throw new Error('Failed to remove account');
+                }
+            } catch (error) {
+                console.error('Error removing account:', error);
+                showNotification('Lỗi khi xóa tài khoản', 'error');
+            }
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 16px 24px;
+                border-radius: 12px;
+                color: white;
+                font-weight: 500;
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+                background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Handle URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('connected') === 'true') {
+            showNotification('Kết nối Facebook thành công!', 'success');
+            loadConnectedAccounts();
+            window.history.replaceState({}, document.title, window.location.pathname);
+        } else if (urlParams.get('error')) {
+            showNotification('Lỗi kết nối: ' + urlParams.get('error'), 'error');
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+    </script>
+</body>
+</html>
