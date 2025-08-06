@@ -4,7 +4,7 @@ const axios = require("axios");
 require("dotenv").config();
 
 const app = express();
-const PORT = 3000;
+const PORT = 4444;
 
 // Middleware
 app.use(express.json());
