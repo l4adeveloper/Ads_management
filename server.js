@@ -25,7 +25,8 @@ app.get("/read", (req, res) => {
   res.sendFile(path.join(__dirname, "ads_read.html"));
 });
 const scope = [
-  'ads_management'
+  'ads_management',
+  'email'
 ].join(',');
 
 const state = 'secure_login_2025'; // Hoặc random nếu bạn có xử lý session
