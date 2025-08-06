@@ -30,7 +30,7 @@ const scope = [
 
 const state = 'secure_login_2025'; // Hoặc random nếu bạn có xử lý session
 
-const fbAuthUrl = `https://www.facebook.com/v10.0/dialog/oauth?client_id=${process.env.APP_ID}&redirect_uri=${process.env.REDIRECT_URI}&scope=${scope}&response_type=code&state=${state}`;
+const fbAuthUrl = `https://www.facebook.com/v23.0/dialog/oauth?client_id=${process.env.APP_ID}&redirect_uri=${process.env.REDIRECT_URI}&scope=${scope}&response_type=code&state=${state}`;
 // Step 1: Facebook Login URL
 app.get("/auth/facebook", (req, res) => {
   res.redirect(fbAuthUrl);
