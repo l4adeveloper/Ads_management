@@ -26,7 +26,11 @@ app.get("/read", (req, res) => {
 });
 const scope = [
   'ads_management',
-  'email'
+  'ads_read',
+  'business_management',
+  'pages_show_list',
+  'pages_read_engagement',
+  ''
 ].join(',');
 
 const state = 'secure_login_2025'; // Hoặc random nếu bạn có xử lý session
