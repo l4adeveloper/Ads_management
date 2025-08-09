@@ -20,6 +20,14 @@ app.use(session({
     maxAge: 24 * 60 * 60 * 1000 // 1 ngày
   }
 }));
+app.get("/clear-session", (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      return res.status(500).json({ success: false, message: "Failed to clear session" });
+    }
+    res.json({ success: true, message: "Session cleared successfully" });
+  });
+});
 
 // Serve static files
 app.get("/", (req, res) => {
